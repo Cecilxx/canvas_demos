@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Clock</title>
+
+  <style>
+    #canvas {
+      background: rgb(235, 208, 135)
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="800" height="400">
+    canvas not supported
+  </canvas>
+</body>
+
+<script>
+  const canvas = document.getElementById("canvas")
+  const ctx = canvas.getContext("2d")
+  const FONT_HEIGHT = 15
+  const MARGIN = 280
+  const HAND_TRUNCATION = canvas.width / 50
+  const HOUR_HAND_TRUNCATION = canvas.width / 10
+  const NUMERAL_SPACE = 20
+  const RADIUS = canvas.width / 2 - MARGIN
+  const HAND_RADIUS = RADIUS + NUMERAL_SPACE
+
+  const drawCircle = () => {
+    ctx.beginPath()
+    ctx.arc(canvas.width / 2, canvas.height / 2, RADIUS, 0, (Math.PI / 180) * 360)
+
+    ctx.stroke()
+  }
+
+  const drawNumerals = () => {
+    const numerals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    let angle = 0
+    let numeralWidth = 0
+    numerals.forEach(e => {
+      angle = Math.PI / 6 * (e - 3)
+      numeralWidth = ctx.measureText(e).width
+      ctx.fillText(e, canvas.width / 2 + Math.cos(angle) * HAND_RADIUS - numeralWidth / 2, canvas.height / 2 + Math.sin(angle) * HAND_RADIUS + FONT_HEIGHT / 3)
+    })
+  }
+
+  const drawCenter = () => {
+    ctx.beginPath()
+    ctx.arc(canvas.width / 2, canvas.height / 2, 5, 0, Math.PI * 2, true)
+    ctx.fill()
+  }
+
+  const drawHand = (loc, key, radio) => {
+    // RADIUS = 120
+    // HAND_TRUNCATION = 16
+    // HOUR_HAND_TRUNCATION = 40
+    let angle = (Math.PI * 2) * (loc / 60) - Math.PI / 2
+    let handRadius = (RADIUS - HAND_TRUNCATION) * radio
+
+    ctx.moveTo(canvas.width / 2, canvas.height / 2)
+    ctx.lineTo(canvas.width / 2 + Math.cos(angle) * handRadius, canvas.height / 2 + Math.sin(angle) * handRadius)
+
+    ctx.stroke()
+  }
+
+  const drawHands = () => {
+    let date = new Date
+    let hour = date.getHours()
+
+    hour = hour > 12 ? hour - 12 : hour
+
+    drawHand((hour + date.getMinutes() / 60) * 5, 0, 0.7)
+    drawHand(date.getMinutes(), 1, 0.8)
+    drawHand(date.getSeconds(), 2, 0.9)
+  }
+
+  const drawClock = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    drawCircle()
+    drawNumerals()
+    drawCenter()
+    drawHands()
+  }
+
+
+  setInterval(drawClock, 1000)
+</script>
+
+</html>
