@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    canvas {
+      background: skyblue
+    }
+  </style>
+</head>
+
+<body>
+  <canvas width="800" height="400" id="canvas">Sorry, you must update your brower or use chrome for canvas</canvas>
+</body>
+<script>
+  const canvas = document.getElementById('canvas')
+  const ctx = canvas.getContext("2d")
+
+  const windowToCanvas = (x, y) => {
+    const bbox = canvas.getBoundingClientRect()
+
+    return {
+      x: x - bbox.left * (canvas.width / bbox.width),
+      y: y - bbox.top * (canvas.width / bbox.width),
+    }
+  }
+
+  const drawCoordinate = (loc) => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.beginPath()
+    ctx.moveTo(0, loc.y)
+    ctx.lineTo(canvas.width, loc.y)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(loc.x, 0)
+    ctx.lineTo(loc.x, canvas.height)
+    ctx.stroke()
+
+    ctx.font = "20px serif";
+    ctx.fillText(`(x: ${loc.x}, y: ${loc.y})`, loc.x + 10, loc.y - 10)
+  }
+
+  canvas.onmousemove = (e) => {
+    const loc = windowToCanvas(e.clientX, e.clientY)
+    drawCoordinate(loc)
+  }
+</script>
+
+</html>
