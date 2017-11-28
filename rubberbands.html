@@ -134,7 +134,7 @@
     rubberbandStart(x, y)
   }
 
-  window.onmousemove = e => {
+  canvas.onmousemove = e => {
     e.preventDefault()
 
     const x = e.clientX
@@ -146,6 +146,7 @@
   }
 
   window.onmouseup = e => {
+    console.log('1212')
     e.preventDefault()
 
     rubberbandEnd()
