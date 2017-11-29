@@ -199,9 +199,7 @@
 
   context.font = '48px Helvetica';
 
-  setTimeout(() => {
-    window.requestNextAnimationFrame(animate)
-  }, 100)
+  window.requestNextAnimationFrame(animate)
 
   canvas.onclick = function (e) {
     paused = !paused;
