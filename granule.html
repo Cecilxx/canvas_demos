@@ -20,6 +20,10 @@
   <script>
     var canvas = document.getElementById("cas");
     var ctx = canvas.getContext("2d");
+    var lastTime = 0
+    var lastFpsUpdateTime = 0
+    var lastFpsUpdate = 0
+    var fps = 0
     resize();
     window.onresize = resize;
 
@@ -51,7 +55,7 @@
     // 添加粒子
     // x，y为粒子坐标，xa, ya为粒子xy轴加速度，max为连线的最大距离
     var dots = [];
-    for (var i = 0; i < 300; i++) {
+    for (var i = 0; i < 100; i++) {
       var x = Math.random() * canvas.width;
       var y = Math.random() * canvas.height;
       var xa = Math.random() * 2 - 1;
@@ -70,7 +74,16 @@
     }, 100);
     // 每一帧循环的逻辑
     function animate() {
+      var now = (+new Date)
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      fps = calculateFps()
+      if (now - lastFpsUpdateTime > 500) {
+        lastFpsUpdateTime = now;
+        lastFpsUpdate = fps
+      }
+      ctx.fillStyle = 'cornflowerblue';
+      ctx.fillText(lastFpsUpdate.toFixed() + ' fps', 20, 20);
       // 将鼠标坐标添加进去，产生一个用于比对距离的点数组
       var ndots = [warea].concat(dots);
       dots.forEach(function (dot) {
@@ -114,6 +127,15 @@
         ndots.splice(ndots.indexOf(dot), 1);
       });
       RAF(animate);
+    }
+
+    function calculateFps() {
+      var now = (+new Date),
+        fps = 1000 / (now - lastTime);
+
+      lastTime = now;
+
+      return fps;
     }
   </script>
 </body>

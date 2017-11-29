@@ -46,49 +46,6 @@
     context = canvas.getContext('2d'),
     paused = true,
     discs = [],
-    // discs = [{
-    //     x: Math.random() * 750,
-    //     y: Math.random() * 500,
-    //     // lastX: Math.floor(Math.random() * 750),
-    //     // lastY: Math.floor(Math.random() * 500),
-    //     velocityX: 3.2,
-    //     velocityY: 3.5,
-    //     radius: 25,
-    //     innerColor: 'rgba(0,255,255,0.3)',
-    //     middleColor: 'rgba(0,255,255,0.9)',
-    //     outerColor: 'rgba(0,255,255,0.3)',
-    //     strokeStyle: 'slateblue',
-    //   },
-
-    //   // {
-    //   //   x: 150,
-    //   //   y: 50,
-    //   //   lastX: 75,
-    //   //   lastY: 200,
-    //   //   velocityX: 2.2,
-    //   //   velocityY: 2.5,
-    //   //   radius: 25,
-    //   //   innerColor: 'rgba(225,225,225,0.1)',
-    //   //   middleColor: 'rgba(225,225,225,0.9)',
-    //   //   outerColor: 'rgba(225,225,225,0.3)',
-    //   //   strokeStyle: 'gray'
-    //   // },
-
-    //   // {
-    //   //   x: 150,
-    //   //   y: 50,
-    //   //   lastX: 150,
-    //   //   lastY: 50,
-    //   //   velocityX: 1.2,
-    //   //   velocityY: 1.5,
-    //   //   radius: 25,
-    //   //   innerColor: 'orange',
-    //   //   middleColor: 'yellow',
-    //   //   outerColor: 'gold',
-    //   //   shadowColor: 'rgba(255,0,0,0.7)',
-    //   //   strokeStyle: 'orange'
-    //   // },
-    // ],
     lastTime = 0,
     lastFpsUpdateTime = 0,
     frameCount = 0,
@@ -98,36 +55,15 @@
     var ball = {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      // lastX: Math.floor(Math.random() * 750),
-      // lastY: Math.floor(Math.random() * 500),
       velocityX: Math.random() * 2,
       velocityY: Math.random() * 2,
-      radius: Math.random() * 10,
+      radius: 2,
       innerColor: 'orange',
       middleColor: 'yellow',
       outerColor: 'gold',
       shadowColor: 'rgba(255,0,0,0.7)',
       strokeStyle: 'orange'
     }
-    // if (i > 0 && i < 100) {
-    //   ball.innerColor = 'rgba(0,255,255,0.3)'
-    //   ball.middleColor = 'rgba(0,255,255,0.9)'
-    //   ball.outerColor = 'rgba(0,255,255,0.3)'
-    //   ball.strokeStyle = 'slateblue'
-    // }
-    // if (i > 100 && i < 200) {
-    //   ball.innerColor = 'rgba(225,225,225,0.1)'
-    //   ball.middleColor = 'rgba(225,225,225,0.9)'
-    //   ball.outerColor = 'rgba(225,225,225,0.3)'
-    //   ball.strokeStyle = 'gray'
-    // }
-    // if (i > 200 && i < 300) {
-    //   ball.innerColor = 'orange'
-    //   ball.middleColor = 'yellow'
-    //   ball.outerColor = 'gold'
-    //   ball.shadowColor = 'rgba(255,0,0,0.7)'
-    //   ball.strokeStyle = 'orange'
-    // }
     discs.push(ball)
   }
 
@@ -258,24 +194,14 @@
       context.fillStyle = 'cornflowerblue';
       context.fillText(lastFpsUpdate.toFixed() + ' fps', 45, 50);
     }
-    // if (window.webkitRequestAnimationFrame !== undefined) {
-    //   window.webkitRequestAnimationFrame(animate);
-    // } else if (window.mozRequestAnimationFrame !== undefined) {
-    //   window.mozRequestAnimationFrame(animate);
-    // }
     window.requestNextAnimationFrame(animate)
   }
 
   context.font = '48px Helvetica';
 
-  // if (window.webkitRequestAnimationFrame !== undefined) {
-  //   window.webkitRequestAnimationFrame(animate);
-  // } else if (window.mozRequestAnimationFrame !== undefined) {
-  //   window.mozRequestAnimationFrame(animate);
-  // } else {
-  //   setInterval(animate, 1000 / 60);
-  // }
-  window.requestNextAnimationFrame(animate)
+  setTimeout(() => {
+    window.requestNextAnimationFrame(animate)
+  }, 100)
 
   canvas.onclick = function (e) {
     paused = !paused;
