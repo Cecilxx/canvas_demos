@@ -45,54 +45,92 @@
   var canvas = document.querySelector('#canvas'),
     context = canvas.getContext('2d'),
     paused = true,
-    discs = [{
-        x: 150,
-        y: 50,
-        lastX: 150,
-        lastY: 50,
-        velocityX: 3.2,
-        velocityY: 3.5,
-        radius: 25,
-        innerColor: 'rgba(0,255,255,0.3)',
-        middleColor: 'rgba(0,255,255,0.9)',
-        outerColor: 'rgba(0,255,255,0.3)',
-        strokeStyle: 'slateblue',
-      },
+    discs = [],
+    // discs = [{
+    //     x: Math.random() * 750,
+    //     y: Math.random() * 500,
+    //     // lastX: Math.floor(Math.random() * 750),
+    //     // lastY: Math.floor(Math.random() * 500),
+    //     velocityX: 3.2,
+    //     velocityY: 3.5,
+    //     radius: 25,
+    //     innerColor: 'rgba(0,255,255,0.3)',
+    //     middleColor: 'rgba(0,255,255,0.9)',
+    //     outerColor: 'rgba(0,255,255,0.3)',
+    //     strokeStyle: 'slateblue',
+    //   },
 
-      {
-        x: 150,
-        y: 50,
-        lastX: 75,
-        lastY: 200,
-        velocityX: 2.2,
-        velocityY: 2.5,
-        radius: 25,
-        innerColor: 'rgba(225,225,225,0.1)',
-        middleColor: 'rgba(225,225,225,0.9)',
-        outerColor: 'rgba(225,225,225,0.3)',
-        strokeStyle: 'gray'
-      },
+    //   // {
+    //   //   x: 150,
+    //   //   y: 50,
+    //   //   lastX: 75,
+    //   //   lastY: 200,
+    //   //   velocityX: 2.2,
+    //   //   velocityY: 2.5,
+    //   //   radius: 25,
+    //   //   innerColor: 'rgba(225,225,225,0.1)',
+    //   //   middleColor: 'rgba(225,225,225,0.9)',
+    //   //   outerColor: 'rgba(225,225,225,0.3)',
+    //   //   strokeStyle: 'gray'
+    //   // },
 
-      {
-        x: 150,
-        y: 50,
-        lastX: 150,
-        lastY: 50,
-        velocityX: 1.2,
-        velocityY: 1.5,
-        radius: 25,
-        innerColor: 'orange',
-        middleColor: 'yellow',
-        outerColor: 'gold',
-        shadowColor: 'rgba(255,0,0,0.7)',
-        strokeStyle: 'orange'
-      },
-    ],
-    numDiscs = discs.length,
+    //   // {
+    //   //   x: 150,
+    //   //   y: 50,
+    //   //   lastX: 150,
+    //   //   lastY: 50,
+    //   //   velocityX: 1.2,
+    //   //   velocityY: 1.5,
+    //   //   radius: 25,
+    //   //   innerColor: 'orange',
+    //   //   middleColor: 'yellow',
+    //   //   outerColor: 'gold',
+    //   //   shadowColor: 'rgba(255,0,0,0.7)',
+    //   //   strokeStyle: 'orange'
+    //   // },
+    // ],
     lastTime = 0,
     lastFpsUpdateTime = 0,
     frameCount = 0,
     animateButton = document.querySelector('#animateButton');
+
+  for (var i = 0; i < 100; i++) {
+    var ball = {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      // lastX: Math.floor(Math.random() * 750),
+      // lastY: Math.floor(Math.random() * 500),
+      velocityX: Math.random() * 2,
+      velocityY: Math.random() * 2,
+      radius: Math.random() * 10,
+      innerColor: 'orange',
+      middleColor: 'yellow',
+      outerColor: 'gold',
+      shadowColor: 'rgba(255,0,0,0.7)',
+      strokeStyle: 'orange'
+    }
+    // if (i > 0 && i < 100) {
+    //   ball.innerColor = 'rgba(0,255,255,0.3)'
+    //   ball.middleColor = 'rgba(0,255,255,0.9)'
+    //   ball.outerColor = 'rgba(0,255,255,0.3)'
+    //   ball.strokeStyle = 'slateblue'
+    // }
+    // if (i > 100 && i < 200) {
+    //   ball.innerColor = 'rgba(225,225,225,0.1)'
+    //   ball.middleColor = 'rgba(225,225,225,0.9)'
+    //   ball.outerColor = 'rgba(225,225,225,0.3)'
+    //   ball.strokeStyle = 'gray'
+    // }
+    // if (i > 200 && i < 300) {
+    //   ball.innerColor = 'orange'
+    //   ball.middleColor = 'yellow'
+    //   ball.outerColor = 'gold'
+    //   ball.shadowColor = 'rgba(255,0,0,0.7)'
+    //   ball.strokeStyle = 'orange'
+    // }
+    discs.push(ball)
+  }
+
 
   function eraseBackground() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -131,17 +169,17 @@
   }
 
   function update() {
-    var i = numDiscs,
+    var i = discs.length,
       disc = null;
 
     while (i--) {
       disc = discs[i];
 
-      if (disc.x + disc.velocityX + disc.radius > context.canvas.width ||
+      if (disc.x + disc.velocityX + disc.radius > canvas.width ||
         disc.x + disc.velocityX - disc.radius < 0)
         disc.velocityX = -disc.velocityX;
 
-      if (disc.y + disc.velocityY + disc.radius > context.canvas.height ||
+      if (disc.y + disc.velocityY + disc.radius > canvas.height ||
         disc.y + disc.velocityY - disc.radius < 0)
         disc.velocityY = -disc.velocityY;
 
@@ -173,10 +211,9 @@
   }
 
   function draw() {
-    var i = numDiscs,
+    var i = discs.length,
       disc;
 
-    i = numDiscs;
     while (i--) {
       disc = discs[i];
       drawDisc(disc);
